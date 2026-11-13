@@ -1,0 +1,200 @@
+[
+  {
+    "id": 1,
+    "category": "cancellation",
+    "rule_topic": "Confirmed ticket cancelled early",
+    "ticket_status": "Confirmed",
+    "time_window": "More than 48 hours before departure",
+    "charge_or_refund": "Flat per passenger: Rs 240 (1A/EC), Rs 200 (2A/FC), Rs 180 (3A/CC/3E), Rs 120 (SL), Rs 60 (2S)",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(i)",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 2,
+    "category": "cancellation",
+    "rule_topic": "Confirmed ticket, 48 to 12 hours",
+    "ticket_status": "Confirmed",
+    "time_window": "Between 48 and 12 hours before departure",
+    "charge_or_refund": "25% of fare, subject to the minimum flat charge",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(ii)",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 3,
+    "category": "cancellation",
+    "rule_topic": "Confirmed ticket, 12 to 4 hours",
+    "ticket_status": "Confirmed",
+    "time_window": "Between 12 and 4 hours before departure",
+    "charge_or_refund": "50% of fare, subject to the minimum flat charge",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(iii)",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 4,
+    "category": "cancellation",
+    "rule_topic": "Confirmed ticket, last 4 hours",
+    "ticket_status": "Confirmed",
+    "time_window": "Less than 4 hours before departure",
+    "charge_or_refund": "No refund after the prescribed time limit",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(iv)",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 5,
+    "category": "cancellation",
+    "rule_topic": "Partially confirmed ticket",
+    "ticket_status": "Partially confirmed",
+    "time_window": "Up to half an hour before scheduled departure",
+    "charge_or_refund": "Refund allowed (earlier limit was 2 hours after departure)",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 3",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 6,
+    "category": "clerkage",
+    "rule_topic": "RAC / waitlisted ticket cancelled",
+    "ticket_status": "RAC / WL",
+    "time_window": "Up to half an hour before scheduled departure",
+    "charge_or_refund": "Clerkage Rs 60 per passenger deducted; no refund after limit",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rules 1 and 4",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 7,
+    "category": "eticket",
+    "rule_topic": "Train cancelled, e-ticket",
+    "ticket_status": "E-ticket",
+    "time_window": "When railway cancels the train",
+    "charge_or_refund": "Automatic refund w.e.f. 01.07.2015; no TDR needed. Counter PRS tickets unchanged",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 5",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 8,
+    "category": "tatkal",
+    "rule_topic": "Confirmed Tatkal ticket cancelled",
+    "ticket_status": "Tatkal confirmed",
+    "time_window": "Any time (voluntary cancellation)",
+    "charge_or_refund": "No refund on voluntary cancellation",
+    "rule_ref": "Tatkal rule (secondary source)",
+    "source_url": "https://irctconline.pages.dev/guides/refund-rules",
+    "verified": false
+  },
+  {
+    "id": 9,
+    "category": "tatkal",
+    "rule_topic": "Tatkal RAC / waitlisted ticket",
+    "ticket_status": "Tatkal RAC / WL",
+    "time_window": "Up to half an hour before scheduled departure",
+    "charge_or_refund": "Refund with clerkage deduction (verify exact Tatkal handling)",
+    "rule_ref": "Tatkal rule (verify in circular PDF)",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": false
+  },
+  {
+    "id": 10,
+    "category": "clerkage",
+    "rule_topic": "Unreserved ticket cancelled",
+    "ticket_status": "Unreserved",
+    "time_window": "Time limit not stated on the one-page table",
+    "charge_or_refund": "Clerkage Rs 30 per passenger (second class unreserved)",
+    "rule_ref": "SCR Refund Rules w.e.f. 12.11.2015, Rule 1(i)",
+    "source_url": "https://www.indianrail.gov.in/refund_Rules.html",
+    "verified": true
+  },
+  {
+    "id": 11,
+    "category": "tdr",
+    "rule_topic": "Train cancelled by railways",
+    "ticket_status": "Any reserved",
+    "time_window": "No time limit for e-tickets",
+    "charge_or_refund": "Full refund; automatic for e-tickets",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://pnrstatuslive.com/cancellation-refund-tdr-policy-of-indian-railways",
+    "verified": true
+  },
+  {
+    "id": 12,
+    "category": "tdr",
+    "rule_topic": "Train late more than 3 hours",
+    "ticket_status": "Passenger did not travel",
+    "time_window": "TDR before actual departure at boarding station",
+    "charge_or_refund": "Full fare refunded, no cancellation charge or clerkage",
+    "rule_ref": "IRCTC TDR table; SCR rule 6",
+    "source_url": "https://news.visitinrajasthan.com/?p=11536",
+    "verified": true
+  },
+  {
+    "id": 13,
+    "category": "tdr",
+    "rule_topic": "AC failure",
+    "ticket_status": "AC class passenger",
+    "time_window": "Within 20 hours of arrival at destination",
+    "charge_or_refund": "Fare difference for distance AC failed; original TTE certificate needed",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://news.visitinrajasthan.com/?p=11536",
+    "verified": true
+  },
+  {
+    "id": 14,
+    "category": "tdr",
+    "rule_topic": "Proper coach not attached",
+    "ticket_status": "Booked class not available",
+    "time_window": "Up to 2 days from TTE certificate",
+    "charge_or_refund": "Difference of fare to lower class travelled",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://news.visitinrajasthan.com/?p=11536",
+    "verified": true
+  },
+  {
+    "id": 15,
+    "category": "tdr",
+    "rule_topic": "Travelled in lower class after charting",
+    "ticket_status": "No room provided after charting",
+    "time_window": "Within 3 hours of actual departure",
+    "charge_or_refund": "Difference of fare as passenger travelled in lower class",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://pnrstatuslive.com/cancellation-refund-tdr-policy-of-indian-railways",
+    "verified": false
+  },
+  {
+    "id": 16,
+    "category": "tdr",
+    "rule_topic": "Train diverted, route skips station",
+    "ticket_status": "Boarding or destination not touched",
+    "time_window": "See IRCTC TDR table",
+    "charge_or_refund": "Refund when train does not touch boarding or destination station",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://pnrstatuslive.com/cancellation-refund-tdr-policy-of-indian-railways",
+    "verified": false
+  },
+  {
+    "id": 17,
+    "category": "tdr",
+    "rule_topic": "Reservation given in lower class",
+    "ticket_status": "Passenger did not travel",
+    "time_window": "Within 3 hours of actual departure",
+    "charge_or_refund": "Refund as passenger declined the lower class",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://news.visitinrajasthan.com/?p=11536",
+    "verified": true
+  },
+  {
+    "id": 18,
+    "category": "tdr",
+    "rule_topic": "Party partially travelled",
+    "ticket_status": "Part of party travelled",
+    "time_window": "Up to 72 hours from scheduled departure",
+    "charge_or_refund": "Refund on unused part of ticket",
+    "rule_ref": "IRCTC TDR table",
+    "source_url": "https://news.visitinrajasthan.com/?p=11536",
+    "verified": true
+  }
+]
