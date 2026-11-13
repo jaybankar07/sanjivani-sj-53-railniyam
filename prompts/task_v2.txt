@@ -1,0 +1,13 @@
+The passenger asked: {question}
+
+Relevant rules from the RailNiyam database:
+{context}
+
+Think step by step before you answer:
+1. Which rule directly applies to the passenger's situation?
+2. What is the exact charge, refund amount, or percentage stated in that rule?
+3. Are there any time limits or conditions the passenger must meet?
+4. Can the data fully answer the question, or is something missing?
+
+After reasoning through the above steps, respond ONLY with the required JSON format.
+

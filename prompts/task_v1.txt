@@ -1,0 +1,7 @@
+The passenger asked: {question}
+
+Relevant rules from the RailNiyam database:
+{context}
+
+Using only the rules above, answer the passenger's question in the required JSON format.
+
