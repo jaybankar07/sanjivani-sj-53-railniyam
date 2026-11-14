@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from app.records import load_records, get_by_id
 from app.smart_search import SmartSearch
 from app.llm import chat as llm_chat, parse_llm_json
+from app.vectorstore import search_semantic
 
 ROOT = Path(__file__).resolve().parent.parent
 PROMPTS_DIR = ROOT / "prompts"
@@ -58,6 +59,11 @@ def one_record(record_id: int):
 @app.get("/search")
 def search(q: str):
     return [{"score": round(s, 3), **r.to_dict()} for r, s in ENGINE.search(q)]
+
+
+@app.get("/search/semantic")
+def search_semantic_endpoint(q: str, limit: int = 5):
+    return search_semantic(query=q, top_k=limit)
 
 
 @app.post("/questions")
