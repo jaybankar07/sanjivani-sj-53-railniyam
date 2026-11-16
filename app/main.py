@@ -1,5 +1,6 @@
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse, Response
 from pydantic import BaseModel
 from app.records import load_records, get_by_id
 from app.smart_search import SmartSearch
@@ -49,6 +50,16 @@ def load_prompt(filename: str, fallback: str = "") -> str:
     if path.exists():
         return path.read_text(encoding="utf-8").strip()
     return fallback
+
+
+@app.get("/", include_in_schema=False)
+def root():
+    return RedirectResponse(url="/docs")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    return Response(status_code=204)
 
 
 @app.get("/health")
