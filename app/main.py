@@ -5,6 +5,7 @@ from app.records import load_records, get_by_id
 from app.smart_search import SmartSearch
 from app.llm import chat as llm_chat, parse_llm_json
 from app.vectorstore import search_semantic
+from app.rag import answer_question
 
 ROOT = Path(__file__).resolve().parent.parent
 PROMPTS_DIR = ROOT / "prompts"
@@ -29,6 +30,18 @@ class ChatResponse(BaseModel):
     answer: str
     confidence: str
     follow_up: str
+
+
+class AskRequest(BaseModel):
+    question: str
+    top_k: int = 3
+
+
+class AskResponse(BaseModel):
+    question: str
+    answer: str
+    citations: list[dict]
+    confidence: str
 
 
 def load_prompt(filename: str, fallback: str = "") -> str:
@@ -73,6 +86,17 @@ def post_question(q: Question):
              "top_matches": [r.id for r, _ in top]}
     QUESTIONS.append(entry)
     return entry
+
+
+@app.post("/ask", response_model=AskResponse)
+def ask_endpoint(req: AskRequest):
+    result = answer_question(question=req.question, top_k=req.top_k)
+    return AskResponse(
+        question=result["question"],
+        answer=result["answer"],
+        citations=result["citations"],
+        confidence=result["confidence"],
+    )
 
 
 @app.post("/chat", response_model=ChatResponse)

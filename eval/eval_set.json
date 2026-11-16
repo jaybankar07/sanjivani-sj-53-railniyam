@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "question": "How much will be deducted if I cancel a confirmed 3AC ticket 3 days before departure?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-01",
+    "expected_keywords": ["180", "flat", "cancellation"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(i)"
+  },
+  {
+    "id": 2,
+    "question": "If I cancel a confirmed Sleeper ticket 6 hours before departure, how much do I get back?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-03",
+    "expected_keywords": ["50%", "minimum", "120"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(iii)"
+  },
+  {
+    "id": 3,
+    "question": "My train was cancelled by the railways. Do I need to file a TDR for my e-ticket?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-07",
+    "expected_keywords": ["automatic", "no tdr", "refund"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rule 5"
+  },
+  {
+    "id": 4,
+    "question": "Is there any refund if I cancel a confirmed Tatkal ticket?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-08",
+    "expected_keywords": ["no refund", "tatkal"],
+    "expected_source": "Tatkal rule (secondary source)"
+  },
+  {
+    "id": 5,
+    "question": "My train is running more than 3 hours late and I do not want to travel. What can I claim?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-12",
+    "expected_keywords": ["full", "no cancellation", "tdr"],
+    "expected_source": "IRCTC TDR table; SCR rule 6"
+  },
+  {
+    "id": 6,
+    "question": "What is the exact amount IRCTC will credit to my bank account today, and in how many days will it arrive?",
+    "is_answerable": false,
+    "expected_chunk": null,
+    "expected_keywords": ["i don't know"],
+    "expected_source": null
+  },
+  {
+    "id": 7,
+    "question": "What is the clerkage charge for an RAC or waitlisted ticket?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-06",
+    "expected_keywords": ["60", "clerkage"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rules 1 and 4"
+  },
+  {
+    "id": 8,
+    "question": "The AC did not work in my 3AC coach. Can I get a refund and what proof do I need?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-13",
+    "expected_keywords": ["difference", "tte", "20 hours"],
+    "expected_source": "IRCTC TDR table"
+  },
+  {
+    "id": 9,
+    "question": "I travelled in a lower class because my coach was not attached. How do I claim the fare difference?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-14",
+    "expected_keywords": ["lower class", "difference", "tdr"],
+    "expected_source": "IRCTC TDR table"
+  },
+  {
+    "id": 10,
+    "question": "Until how long before departure can I cancel a partially confirmed ticket?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-05",
+    "expected_keywords": ["half an hour", "30 minutes"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rule 3"
+  },
+  {
+    "id": 11,
+    "question": "What is the clerkage fee for cancelling a second class unreserved ticket?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-10",
+    "expected_keywords": ["30", "unreserved", "clerkage"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rule 1(i)"
+  },
+  {
+    "id": 12,
+    "question": "What can I claim if my train was diverted and the new route did not touch my destination station?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-16",
+    "expected_keywords": ["diverted", "refund", "tdr"],
+    "expected_source": "IRCTC TDR table"
+  },
+  {
+    "id": 13,
+    "question": "If only some passengers in our group ticket travelled, can we get a refund for the unused passengers?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-18",
+    "expected_keywords": ["partially", "72 hours", "refund"],
+    "expected_source": "IRCTC TDR table"
+  },
+  {
+    "id": 14,
+    "question": "What is the flat cancellation deduction for a First AC (1A) confirmed ticket cancelled 3 days early?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-01",
+    "expected_keywords": ["240", "1a", "flat"],
+    "expected_source": "SCR Refund Rules w.e.f. 12.11.2015, Rule 2(i)"
+  },
+  {
+    "id": 15,
+    "question": "Can I get a refund if the railway offered me a seat in a lower class and I declined to travel?",
+    "is_answerable": true,
+    "expected_chunk": "rule-chunk-17",
+    "expected_keywords": ["declined", "lower class", "3 hours"],
+    "expected_source": "IRCTC TDR table"
+  }
+]
+

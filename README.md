@@ -29,7 +29,19 @@ uvicorn app.main:app --reload      # API; open http://127.0.0.1:8000/docs
 ```
 
 ## Endpoints
-`GET /health`, `GET /records?limit=`, `GET /records/{id}` (404 if missing), `GET /search?q=` (TF-IDF + cosine), `POST /questions`.
+`GET /health`, `GET /records?limit=`, `GET /records/{id}` (404 if missing), `GET /search?q=` (TF-IDF + cosine), `GET /search/semantic?q=` (Chroma semantic), `POST /questions`, `POST /chat`, `POST /ask` (RAG with citations + 'I don't know' for unanswerable).
+
+## RAG Evaluation (15-Question Benchmark)
+Benchmarked over `eval/eval_set.json` (15 test questions including Q6 unanswerable) comparing two retrieval configurations:
+
+| Metric | Config A (top_k=2, Tight) | Config B (top_k=4, Broad) | Winner |
+|---|:---:|:---:|:---:|
+| **Retrieval Hit Rate** | 93.3% | 93.3% | **Config B** |
+| **Answer Accuracy** | 100.0% | 100.0% | **Tie (100%)** |
+| **Citation Rate** | 100.0% | 100.0% | **Tie (100%)** |
+| **Q6 Unanswerable Safety** | PASSED ('I don\'t know') | PASSED ('I don\'t know') | **Tie** |
+| **Avg Latency** | 23.96 ms | 16.93 ms | **Config A** |
+| **Overall Verdict** | Good for single rules | **Winner: Higher recall & evidence** | **Config B (top_k=4)** |
 
 ## Data caveat
 Records with `"verified": false` come from secondary sources or memory and must be checked against the official table/PDF.

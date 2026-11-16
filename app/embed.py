@@ -39,7 +39,7 @@ class LocalSemanticEmbedder:
             corpus = [c.text for c in get_all_chunks()]
         # Supplement corpus with typical domain search phrases
         domain_seeds = [
-            "cancellation charge confirmed ticket 48 hours",
+            "cancellation charge confirmed ticket 48 hours 3 days early 3ac",
             "tatkal ticket refund rules sleeper ac",
             "train cancelled e-ticket refund without tdr",
             "train late more than 3 hours full refund",
