@@ -29,7 +29,7 @@ uvicorn app.main:app --reload      # API; open http://127.0.0.1:8000/docs
 ```
 
 ## Endpoints
-`GET /health`, `GET /records?limit=`, `GET /records/{id}` (404 if missing), `GET /search?q=` (TF-IDF + cosine), `GET /search/semantic?q=` (Chroma semantic), `POST /questions`, `POST /chat`, `POST /ask` (RAG with citations + 'I don't know' for unanswerable).
+`GET /health`, `GET /records?limit=`, `GET /records/{id}` (404 if missing), `GET /search?q=` (TF-IDF + cosine), `GET /search/semantic?q=` (Chroma semantic), `POST /questions`, `POST /chat`, `POST /ask` (RAG with citations + 'I don't know' for unanswerable), `POST /agent` (LangGraph agent with memory checkpointer + approval step for refund calculations).
 
 ## RAG Evaluation (15-Question Benchmark)
 Benchmarked over `eval/eval_set.json` (15 test questions including Q6 unanswerable) comparing two retrieval configurations:

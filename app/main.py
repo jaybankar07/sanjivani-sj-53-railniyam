@@ -7,6 +7,7 @@ from app.smart_search import SmartSearch
 from app.llm import chat as llm_chat, parse_llm_json
 from app.vectorstore import search_semantic
 from app.rag import answer_question
+from app.graph import run_agent_graph
 
 ROOT = Path(__file__).resolve().parent.parent
 PROMPTS_DIR = ROOT / "prompts"
@@ -43,6 +44,21 @@ class AskResponse(BaseModel):
     answer: str
     citations: list[dict]
     confidence: str
+
+
+class AgentRequest(BaseModel):
+    message: str
+    thread_id: str = "default"
+    approve: bool | None = None
+
+
+class AgentResponse(BaseModel):
+    thread_id: str
+    response: str
+    status: str
+    action_taken: str | None = None
+    requires_approval: bool = False
+    details: dict | None = None
 
 
 def load_prompt(filename: str, fallback: str = "") -> str:
@@ -108,6 +124,16 @@ def ask_endpoint(req: AskRequest):
         citations=result["citations"],
         confidence=result["confidence"],
     )
+
+
+@app.post("/agent", response_model=AgentResponse)
+def agent_endpoint(req: AgentRequest):
+    result = run_agent_graph(
+        message=req.message,
+        thread_id=req.thread_id,
+        approve=req.approve,
+    )
+    return AgentResponse(**result)
 
 
 @app.post("/chat", response_model=ChatResponse)

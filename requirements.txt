@@ -5,3 +5,5 @@ uvicorn
 pandas
 scikit-learn
 chromadb
+langgraph
+langchain-core
