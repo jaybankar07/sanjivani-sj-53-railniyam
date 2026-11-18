@@ -26,6 +26,7 @@ python -m app.fetch                # download raw docs into data/raw/
 python -m app.ingest               # clean raw -> data/records.json
 python analysis/explore.py         # 3 pandas facts
 uvicorn app.main:app --reload      # API; open http://127.0.0.1:8000/docs
+streamlit run ui/app.py            # Streamlit Chat & 'Cancel now or later?' UI
 ```
 
 ## Endpoints
@@ -42,6 +43,24 @@ Benchmarked over `eval/eval_set.json` (15 test questions including Q6 unanswerab
 | **Q6 Unanswerable Safety** | PASSED ('I don\'t know') | PASSED ('I don\'t know') | **Tie** |
 | **Avg Latency** | 23.96 ms | 16.93 ms | **Config A** |
 | **Overall Verdict** | Good for single rules | **Winner: Higher recall & evidence** | **Config B (top_k=4)** |
+
+## Streamlit UI & Checkpoint 2 Live Demo
+
+![RailNiyam Streamlit UI](docs/streamlit_ui.png)
+
+### Key Features Demonstrated in Checkpoint 2:
+1. **Interactive Chat (`ui/app.py`)**:
+   - Queries the backend via `/ask` (grounded RAG with citations) or `/agent` (LangGraph with memory & approval).
+   - Displays source citations (rule reference, circular page number, and similarity score).
+   - Collects user thumbs up / thumbs down feedback and persists it to `data/feedback.json`.
+2. **Signature Feature — 'Cancel now or later?' Slider**:
+   - Allows users to drag a time slider (from 0 to 72 hours before departure) to simulate cancellation timing.
+   - Dynamically recomputes the cancellation deduction and net refund in real-time across the official 2015 slabs:
+     - **> 48 hours**: Flat minimum charge per passenger (e.g. ₹180 for 3AC, ₹120 for SL).
+     - **48h to 12h**: 25% of fare deducted (subject to flat minimum).
+     - **12h to 4h**: 50% of fare deducted (subject to flat minimum).
+     - **< 4 hours**: No refund admissible after chart preparation.
+   - Displays the **official rule citation** directly under the live calculation for full transparency.
 
 ## Data caveat
 Records with `"verified": false` come from secondary sources or memory and must be checked against the official table/PDF.
