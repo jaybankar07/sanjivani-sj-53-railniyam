@@ -16,8 +16,9 @@ if str(ROOT) not in sys.path:
 import numpy as np
 import requests
 from chromadb.api.types import EmbeddingFunction
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 from app.chunking import Chunk, get_all_chunks
 
 # Read .env if present

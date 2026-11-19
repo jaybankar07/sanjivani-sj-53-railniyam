@@ -1,13 +1,16 @@
 from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse, Response
 from pydantic import BaseModel
-from app.records import load_records, get_by_id
-from app.smart_search import SmartSearch
-from app.llm import chat as llm_chat, parse_llm_json
-from app.vectorstore import search_semantic
-from app.rag import answer_question
+
 from app.graph import run_agent_graph
+from app.llm import chat as llm_chat
+from app.llm import parse_llm_json
+from app.rag import answer_question
+from app.records import get_by_id, load_records
+from app.smart_search import SmartSearch
+from app.vectorstore import search_semantic
 
 ROOT = Path(__file__).resolve().parent.parent
 PROMPTS_DIR = ROOT / "prompts"
@@ -158,7 +161,7 @@ def chat_endpoint(req: ChatRequest):
         raw_reply = llm_chat([{"role": "user", "content": user_prompt}], system=system_prompt)
         parsed = parse_llm_json(raw_reply)
         return ChatResponse(**parsed)
-    except EnvironmentError:
+    except OSError:
         # Graceful fallback when API keys are not yet configured in .env
         if top_matches:
             top_rec, _ = top_matches[0]

@@ -1,6 +1,7 @@
 import json
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
+
 from app.models import Record
 
 ROOT = Path(__file__).resolve().parent.parent

@@ -6,3 +6,6 @@ __pycache__/
 .vscode/
 data/raw/*.pdf
 data/chroma_db/
+.pytest_cache/
+.ruff_cache/
+

@@ -4,17 +4,16 @@ Orchestrates between:
 2. Rail Refund Calculator (app.tools.rail_refund_calculator) for exact numerical refund calculations.
 Provides step-by-step reasoning trace, tool execution, and synthesized response.
 """
-import sys
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.tools import rail_refund_calculator, normalize_class
 from app.rag import answer_question
-from app.llm import chat as llm_chat
+from app.tools import rail_refund_calculator
 
 
 def extract_calculation_params(query: str) -> dict | None:

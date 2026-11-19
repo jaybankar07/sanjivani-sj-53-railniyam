@@ -10,7 +10,8 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import chromadb
-from app.chunking import get_all_chunks, Chunk
+
+from app.chunking import get_all_chunks
 from app.embed import RailNiyamEmbeddingFunction
 
 CHROMA_DIR = ROOT / "data" / "chroma_db"

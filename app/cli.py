@@ -1,4 +1,4 @@
-from app.records import load_records, search, count_by
+from app.records import count_by, load_records, search
 
 
 def main():

@@ -1,10 +1,11 @@
 """LLM provider wrapper — supports Groq and Gemini via environment variables.
 Set LLM_PROVIDER=groq  (default) or LLM_PROVIDER=gemini in your .env file.
 """
+import json
 import os
 import re
-import json
 from pathlib import Path
+
 import requests
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -71,7 +72,7 @@ def chat(messages: list[dict], system: str) -> str:
     """Send messages to the configured LLM and return the reply text."""
     cfg = get_config()
     if not cfg["groq_key"] and not cfg["gemini_key"]:
-        raise EnvironmentError(
+        raise OSError(
             "No LLM API key found. Set GROQ_API_KEY or GEMINI_API_KEY in your .env file."
         )
     if cfg["provider"] == "gemini" or (not cfg["groq_key"] and cfg["gemini_key"]):

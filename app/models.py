@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict, fields
+from dataclasses import asdict, dataclass, fields
 
 
 @dataclass
@@ -22,5 +22,4 @@ class Record:
         return asdict(self)
 
     def text(self) -> str:
-        return " ".join([self.rule_topic, self.ticket_status, self.time_window,
-                         self.charge_or_refund, self.category])
+        return f"{self.rule_topic} {self.ticket_status} {self.time_window} {self.charge_or_refund} {self.category}"

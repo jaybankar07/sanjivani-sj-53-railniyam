@@ -5,29 +5,29 @@ Features:
 - Human-in-the-loop approval step for ticket refund/cancellation confirmation.
 """
 import sys
-from typing import TypedDict, Optional
 from pathlib import Path
+from typing import TypedDict
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import END, StateGraph
 
-from app.tools import rail_refund_calculator
-from app.rag import answer_question
 from app.agent_loop import extract_calculation_params
+from app.rag import answer_question
+from app.tools import rail_refund_calculator
 
 
 class AgentState(TypedDict, total=False):
     user_input: str
     thread_id: str
     intent: str
-    calc_params: Optional[dict]
-    tool_result: Optional[dict]
+    calc_params: dict | None
+    tool_result: dict | None
     requires_approval: bool
-    approved: Optional[bool]
+    approved: bool | None
     response: str
     status: str
     history: list[dict]
@@ -211,7 +211,7 @@ def build_agent_graph():
 AGENT_GRAPH = build_agent_graph()
 
 
-def run_agent_graph(message: str, thread_id: str = "default", approve: Optional[bool] = None) -> dict:
+def run_agent_graph(message: str, thread_id: str = "default", approve: bool | None = None) -> dict:
     """Execute a turn through the LangGraph agent with memory and approval check."""
     config = {"configurable": {"thread_id": thread_id}}
 

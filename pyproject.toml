@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = [
+    "E501",   # Line length handled by formatter
+    "BLE001", # Allow broad Exception catch for resilient API fallbacks
+    "S110",   # Allow silent exception handling in fallbacks
+    "C408",   # Unnecessary dict() call
+]
+

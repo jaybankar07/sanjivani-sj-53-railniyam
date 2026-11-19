@@ -29,6 +29,17 @@ uvicorn app.main:app --reload      # API; open http://127.0.0.1:8000/docs
 streamlit run ui/app.py            # Streamlit Chat & 'Cancel now or later?' UI
 ```
 
+## Run with Docker
+You can run both the FastAPI backend and the Streamlit UI with a single command using Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+- **API Service**: Accessible at [http://localhost:8000](http://localhost:8000) (Swagger docs at [http://localhost:8000/docs](http://localhost:8000/docs))
+- **Streamlit UI**: Accessible at [http://localhost:8501](http://localhost:8501)
+
+
 ## Endpoints
 `GET /health`, `GET /records?limit=`, `GET /records/{id}` (404 if missing), `GET /search?q=` (TF-IDF + cosine), `GET /search/semantic?q=` (Chroma semantic), `POST /questions`, `POST /chat`, `POST /ask` (RAG with citations + 'I don't know' for unanswerable), `POST /agent` (LangGraph agent with memory checkpointer + approval step for refund calculations).
 

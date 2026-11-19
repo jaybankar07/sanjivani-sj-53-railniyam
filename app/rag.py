@@ -3,16 +3,16 @@ Answers RailNiyam questions from retrieved chunks with citations.
 Ensures strict grounding in Indian Railways refund rules and IRCTC TDR tables.
 Must say "I don't know" when questions cannot be answered by the data (e.g. Q6).
 """
-import sys
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.vectorstore import search_semantic
 from app.llm import chat as llm_chat
+from app.vectorstore import search_semantic
 
 UNANSWERABLE_PATTERNS = [
     r"bank account",
@@ -184,7 +184,7 @@ def answer_question(question: str, top_k: int = 3, min_score: float = 0.25) -> d
         # If model hallucinated or didn't answer properly, ensure fallback or clean text
         answer = reply.strip()
         confidence = "high"
-    except EnvironmentError:
+    except OSError:
         answer, confidence = synthesize_offline_answer(question, retrieved)
 
     return {

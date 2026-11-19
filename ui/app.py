@@ -5,25 +5,26 @@ Features:
 - Thumbs up / thumbs down feedback persisted to data/feedback.json.
 - Signature Feature: 'Cancel now or later?' slider with dynamic refund calculations across 48h/12h/4h slabs and official rule citations.
 """
-import sys
 import json
+import os
+import sys
 import time
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
-import streamlit as st
 import requests
+import streamlit as st
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.tools import rail_refund_calculator
-from app.rag import answer_question
 from app.graph import run_agent_graph
+from app.rag import answer_question
+from app.tools import rail_refund_calculator
 
 FEEDBACK_FILE = ROOT / "data" / "feedback.json"
-API_BASE_URL = "http://127.0.0.1:8000"
+API_BASE_URL = os.getenv("API_BASE_URL", "http://127.0.0.1:8000")
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -357,3 +358,4 @@ with tab_chat:
                 "content": reply_text,
                 "citations": citations,
             })
+

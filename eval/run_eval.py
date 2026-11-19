@@ -5,8 +5,8 @@ Evaluates 2 configurations across the 15-row eval/eval_set.json:
 Computes Retrieval Hit Rate, Answer Accuracy, Citation Rate, Unanswerable Safety, and Latency.
 Outputs the comparison and winner table for README.md.
 """
-import sys
 import json
+import sys
 import time
 from pathlib import Path
 

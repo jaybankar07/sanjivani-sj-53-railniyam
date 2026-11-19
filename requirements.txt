@@ -8,3 +8,5 @@ chromadb
 langgraph
 langchain-core
 streamlit
+pytest
+ruff

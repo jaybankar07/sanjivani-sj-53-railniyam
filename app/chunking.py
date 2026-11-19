@@ -4,11 +4,11 @@ Chunks RailNiyam documents (structured records + raw rules) while preserving:
 - page (page number or document section sheet)
 - title (rule title or topic)
 """
-from dataclasses import dataclass, asdict
 import json
 import sys
+from dataclasses import asdict, dataclass
 from pathlib import Path
-import re
+
 from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parent.parent
