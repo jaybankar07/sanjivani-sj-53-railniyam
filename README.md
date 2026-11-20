@@ -1,4 +1,4 @@
-# RailNiyam
+# RailNiyam [![CI](https://github.com/jaybankar07/sanjivani-sj-53-railniyam/actions/workflows/ci.yml/badge.svg)](https://github.com/jaybankar07/sanjivani-sj-53-railniyam/actions/workflows/ci.yml)
 
 **Product:** RailNiyam, a Q&A assistant for Indian Railways ticket refund and cancellation rules.
 **User:** An ordinary train passenger (e.g. a student or family traveller) who wants to know what they get back when they cancel a ticket or when the railway fails them.
@@ -38,6 +38,13 @@ docker compose up --build
 
 - **API Service**: Accessible at [http://localhost:8000](http://localhost:8000) (Swagger docs at [http://localhost:8000/docs](http://localhost:8000/docs))
 - **Streamlit UI**: Accessible at [http://localhost:8501](http://localhost:8501)
+
+## Live Deployment
+RailNiyam is configured for cloud deployment on **Render** (via blueprint `render.yaml`) and **Hugging Face Spaces**:
+- **Live API Endpoint**: `https://railniyam.onrender.com`
+- **Public Health Check**: [https://railniyam.onrender.com/health](https://railniyam.onrender.com/health) (returns `{"status":"ok","records":18}`)
+- **Interactive Swagger Docs**: [https://railniyam.onrender.com/docs](https://railniyam.onrender.com/docs)
+- **Hugging Face Space**: [https://huggingface.co/spaces/jaybankar07/railniyam](https://huggingface.co/spaces/jaybankar07/railniyam)
 
 
 ## Endpoints
