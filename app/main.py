@@ -1,9 +1,12 @@
+import logging
+import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+from app.cache import QUERY_CACHE, estimate_tokens
 from app.graph import run_agent_graph
 from app.llm import chat as llm_chat
 from app.llm import parse_llm_json
@@ -11,6 +14,10 @@ from app.rag import answer_question
 from app.records import get_by_id, load_records
 from app.smart_search import SmartSearch
 from app.vectorstore import search_semantic
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+logger = logging.getLogger("railniyam")
+
 
 ROOT = Path(__file__).resolve().parent.parent
 PROMPTS_DIR = ROOT / "prompts"
@@ -38,8 +45,8 @@ class ChatResponse(BaseModel):
 
 
 class AskRequest(BaseModel):
-    question: str
-    top_k: int = 3
+    question: str = Field(..., min_length=3, max_length=500, description="Passenger question (max 500 characters)")
+    top_k: int = Field(default=3, ge=1, le=10, description="Number of context chunks to retrieve")
 
 
 class AskResponse(BaseModel):
@@ -47,11 +54,16 @@ class AskResponse(BaseModel):
     answer: str
     citations: list[dict]
     confidence: str
+    latency_ms: float | None = None
+    prompt_tokens: int | None = None
+    completion_tokens: int | None = None
+    total_tokens: int | None = None
+    cached: bool = False
 
 
 class AgentRequest(BaseModel):
-    message: str
-    thread_id: str = "default"
+    message: str = Field(..., min_length=1, max_length=1000, description="User request to agent")
+    thread_id: str = Field(default="default", max_length=100)
     approve: bool | None = None
 
 
@@ -62,6 +74,9 @@ class AgentResponse(BaseModel):
     action_taken: str | None = None
     requires_approval: bool = False
     details: dict | None = None
+    latency_ms: float | None = None
+    tokens: int | None = None
+
 
 
 def load_prompt(filename: str, fallback: str = "") -> str:
@@ -118,25 +133,110 @@ def post_question(q: Question):
     return entry
 
 
+@app.get("/cache/stats")
+def cache_stats():
+    """Return in-memory cache statistics (hits, misses, hit rate)."""
+    return QUERY_CACHE.stats()
+
+
+@app.delete("/cache")
+def clear_cache():
+    """Clear query cache."""
+    QUERY_CACHE.clear()
+    return {"status": "cleared"}
+
+
 @app.post("/ask", response_model=AskResponse)
 def ask_endpoint(req: AskRequest):
+    # Enforce input limit guard
+    if len(req.question.strip()) > 500:
+        raise HTTPException(status_code=400, detail="Question exceeds maximum allowed limit of 500 characters")
+
+    t0 = time.time()
+
+    # Check cache
+    cached_data = QUERY_CACHE.get(req.question)
+    if cached_data is not None:
+        latency_ms = round((time.time() - t0) * 1000, 2)
+        logger.info(
+            f"[TELEMETRY] POST /ask | latency={latency_ms:.2f}ms | "
+            f"prompt_tokens={cached_data['prompt_tokens']} | completion_tokens={cached_data['completion_tokens']} | "
+            f"total_tokens={cached_data['total_tokens']} | cached=True"
+        )
+        return AskResponse(
+            question=req.question,
+            answer=cached_data["answer"],
+            citations=cached_data["citations"],
+            confidence=cached_data["confidence"],
+            latency_ms=latency_ms,
+            prompt_tokens=cached_data["prompt_tokens"],
+            completion_tokens=cached_data["completion_tokens"],
+            total_tokens=cached_data["total_tokens"],
+            cached=True,
+        )
+
+    # Compute answer via RAG
     result = answer_question(question=req.question, top_k=req.top_k)
+    latency_ms = round((time.time() - t0) * 1000, 2)
+
+    prompt_tok = estimate_tokens(req.question)
+    compl_tok = estimate_tokens(result["answer"])
+    tot_tok = prompt_tok + compl_tok
+
+    # Populate cache
+    QUERY_CACHE.set(req.question, {
+        "answer": result["answer"],
+        "citations": result["citations"],
+        "confidence": result["confidence"],
+        "prompt_tokens": prompt_tok,
+        "completion_tokens": compl_tok,
+        "total_tokens": tot_tok,
+    })
+
+    logger.info(
+        f"[TELEMETRY] POST /ask | latency={latency_ms:.2f}ms | "
+        f"prompt_tokens={prompt_tok} | completion_tokens={compl_tok} | "
+        f"total_tokens={tot_tok} | cached=False"
+    )
+
     return AskResponse(
         question=result["question"],
         answer=result["answer"],
         citations=result["citations"],
         confidence=result["confidence"],
+        latency_ms=latency_ms,
+        prompt_tokens=prompt_tok,
+        completion_tokens=compl_tok,
+        total_tokens=tot_tok,
+        cached=False,
     )
 
 
 @app.post("/agent", response_model=AgentResponse)
 def agent_endpoint(req: AgentRequest):
+    if len(req.message.strip()) > 1000:
+        raise HTTPException(status_code=400, detail="Message exceeds maximum allowed limit of 1000 characters")
+
+    t0 = time.time()
     result = run_agent_graph(
         message=req.message,
         thread_id=req.thread_id,
         approve=req.approve,
     )
-    return AgentResponse(**result)
+    latency_ms = round((time.time() - t0) * 1000, 2)
+    tot_tok = estimate_tokens(req.message) + estimate_tokens(result.get("response", ""))
+
+    logger.info(
+        f"[TELEMETRY] POST /agent | thread_id={req.thread_id} | latency={latency_ms:.2f}ms | "
+        f"total_tokens={tot_tok} | action={result.get('action_taken')}"
+    )
+
+    return AgentResponse(
+        **result,
+        latency_ms=latency_ms,
+        tokens=tot_tok,
+    )
+
 
 
 @app.post("/chat", response_model=ChatResponse)
